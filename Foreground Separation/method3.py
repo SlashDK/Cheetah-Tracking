@@ -42,7 +42,7 @@ def denoise(frame):
 
 ret,frame = cam.read()
 if ret is True:
-	backSubtractor = BackGroundSubtractor(0.01,(frame))
+	backSubtractor = BackGroundSubtractor(0.01,denoise(frame))
 	run = True
 else:
 	run = False
@@ -54,10 +54,10 @@ while(run):
 	# If the frame was properly read.
 	if ret is True:
 		# Show the filtered image
-		cv2.imshow('input',(frame))
+		cv2.imshow('input',denoise(frame))
 
 		# get the foreground
-		foreGround = backSubtractor.getForeground((frame))
+		foreGround = backSubtractor.getForeground(denoise(frame))
 
 		# Apply thresholding on the background and display the resulting mask
 		ret, mask = cv2.threshold(foreGround, 15, 255, cv2.THRESH_BINARY)
