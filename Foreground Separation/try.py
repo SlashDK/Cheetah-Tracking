@@ -1,12 +1,13 @@
 import numpy as np
 import cv2
 cap = cv2.VideoCapture('CAM1.mp4')
-fgbg = cv2.bgsegm.createBackgroundSubtractorMOG(noiseSigma = 10)
-fgbg2 = cv2.createBackgroundSubtractorMOG2(varThreshold = 200)
-fgbg3 = cv2.createBackgroundSubtractorKNN(dist2Threshold = 800,detectShadows = False)
+fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
+fgbg2 = cv2.createBackgroundSubtractorMOG2(varThreshold = 100)
+fgbg3 = cv2.createBackgroundSubtractorKNN(dist2Threshold = 500,detectShadows = False)
 kernel = np.ones((5,5),np.uint8)
 kernel2 = np.ones((2,2),np.uint8)
-
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.mp4',fourcc, 20.0, (1920,1080))
 while(1):
 
     ret, frame = cap.read()
@@ -18,11 +19,11 @@ while(1):
 
     # frame = cv2.fastNlMeansDenoisingColored(frame,None,10,10,7,21)
     # frame =  cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
-    frame = fgbg3.apply(frame)
+    frame = fgbg2.apply(frame)
     # frame = cv2.GaussianBlur(frame,(5,5),0)
  
-    frame = cv2.erode(frame,kernel2,iterations = 1)
-    frame = cv2.blur(frame,(10,10))
+    # frame = cv2.erode(frame,kernel2,iterations = 1)
+    frame = cv2.blur(frame,(30,30))
 
     frame2 = cv2.dilate(frame,kernel,iterations = 1)
     
@@ -30,7 +31,9 @@ while(1):
     ret, mask = cv2.threshold(frame2, 10, 255, cv2.THRESH_BINARY)
     
     frame2 = cv2.bitwise_and(frameorig,frameorig,mask = mask)
-    cv2.imshow('frame',frame2)
+    # cv2.imshow('frame',frame2)
+    out.write(frame2)
+
     # break
     # break
     # print(np.unique(mask[1]))
