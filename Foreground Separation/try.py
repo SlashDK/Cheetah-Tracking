@@ -6,8 +6,8 @@ fgbg2 = cv2.createBackgroundSubtractorMOG2(varThreshold = 100)
 fgbg3 = cv2.createBackgroundSubtractorKNN(dist2Threshold = 500,detectShadows = False)
 kernel = np.ones((5,5),np.uint8)
 kernel2 = np.ones((2,2),np.uint8)
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.mp4',fourcc, 20.0, (1920,1080))
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+out = cv2.VideoWriter('output.mp4',fourcc, 90.0, (1920,1080))
 while(1):
 
     ret, frame = cap.read()
