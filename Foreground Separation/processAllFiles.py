@@ -24,9 +24,8 @@ fgbg3 = cv2.createBackgroundSubtractorKNN(
     dist2Threshold=500, detectShadows=False)
 kernel = np.ones((5, 5), np.uint8)
 kernel2 = np.ones((2, 2), np.uint8)
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
+fourcc = cv2.VideoWriter_fourcc(*'MP4V')
 for i in filelist:
-    i = filelist[0]
     cap = cv2.VideoCapture(i)
     loc = i.find("Data")
     outputDirectory = i[:loc] + "Data2" + i[loc + 4:]
