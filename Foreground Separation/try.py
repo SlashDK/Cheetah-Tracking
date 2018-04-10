@@ -31,7 +31,7 @@ while(1):
     ret, mask = cv2.threshold(frame2, 10, 255, cv2.THRESH_BINARY)
     
     frame2 = cv2.bitwise_and(frameorig,frameorig,mask = mask)
-    cv2.imshow('frame',frame2)
+    # cv2.imshow('frame',frame2)
     out.write(frame2)
 
     # break

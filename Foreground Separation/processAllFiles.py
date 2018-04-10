@@ -10,14 +10,13 @@ for root, directories, filenames in os.walk('D:\Projects\Cheetah Tracking\Data')
         if(fn[-1] == '4'):
             filelist.append(fn)
 
-        loc = root.find("Data")
-        newpath = root[:loc] + "Data2" + root[loc + 4:]
-        
-        # print(newpath)
+#         loc = root.find("Data")
+#         newpath = root[:loc] + "Data2" + root[loc + 4:]
 
-        if not os.path.exists(newpath):
-            os.makedirs(newpath)
-a = input("asd")
+#         # print(newpath)
+#         if not os.path.exists(newpath):
+#             os.makedirs(newpath)
+# a = input("asd")
 # print(filelist)
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 fgbg2 = cv2.createBackgroundSubtractorMOG2(varThreshold=100)
@@ -25,12 +24,14 @@ fgbg3 = cv2.createBackgroundSubtractorKNN(
     dist2Threshold=500, detectShadows=False)
 kernel = np.ones((5, 5), np.uint8)
 kernel2 = np.ones((2, 2), np.uint8)
-fourcc = cv2.VideoWriter_fourcc(*'H264')
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
 for i in filelist:
+    i = filelist[0]
     cap = cv2.VideoCapture(i)
     loc = i.find("Data")
     outputDirectory = i[:loc] + "Data2" + i[loc + 4:]
     out = cv2.VideoWriter(outputDirectory, fourcc, 90.0, (1920, 1080))
+    # out = cv2.VideoWriter("output.mp4", fourcc, 90.0, (1920, 1080))
     print(outputDirectory)
     while(1):
 
@@ -54,28 +55,13 @@ for i in filelist:
         ret, mask = cv2.threshold(frame2, 10, 255, cv2.THRESH_BINARY)
 
         frame2 = cv2.bitwise_and(frameorig, frameorig, mask=mask)
-        # cv2.imshow('frame', frame2)
+        # cv2.imshow('frame',frame2)
         out.write(frame2)
 
-        # break
-        # break
-        # print(np.unique(mask[1]))
 
         k = cv2.waitKey(30) & 0xff
         if k == 27:
             break
-    # print(np.unique(mask))
 
-    # print(cv2.bitwise_and(np.ndarray([0,1,2]),np.ndarray([1,1,2])))
-    # kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
-    # fgbg = cv2.bgsegm.createBackgroundSubtractorGMG(decisionThreshold = 0.3)
-    # while(1):
-    #     ret, frame = cap.read()
-    #     fgmask = fgbg.apply(frame)
-    #     fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel)
-    #     cv2.imshow('frame',fgmask)
-    #     k = cv2.waitKey(30) & 0xff
-    #     if k == 27:
-    #       break
     cap.release()
-    # cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
