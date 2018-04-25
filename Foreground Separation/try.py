@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-cap = cv2.VideoCapture('CAM1.mp4')
+cap = cv2.VideoCapture('CAM2.mp4')
 fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
 fgbg2 = cv2.createBackgroundSubtractorMOG2(varThreshold = 100)
 fgbg3 = cv2.createBackgroundSubtractorKNN(dist2Threshold = 500,detectShadows = False)
@@ -8,11 +8,20 @@ kernel = np.ones((5,5),np.uint8)
 kernel2 = np.ones((2,2),np.uint8)
 fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 out = cv2.VideoWriter('output.mp4',fourcc, 90.0, (1920,1080))
-while(1):
 
+savedframe = None
+i=0
+while(1):
+    # if (i==0):
+    #     ret, frame = cap.read()
+    #     savedframe = frame
+    # elif(i<100):
+    #     frame = savedframe
+    # else:
     ret, frame = cap.read()
     if (ret==False):
       break
+    # i+=1
     frameorig = frame
     # frame = fgbg.apply(frame)
     # frame = fgbg2.apply(frame)
@@ -31,7 +40,7 @@ while(1):
     ret, mask = cv2.threshold(frame2, 10, 255, cv2.THRESH_BINARY)
     
     frame2 = cv2.bitwise_and(frameorig,frameorig,mask = mask)
-    # cv2.imshow('frame',frame2)
+    cv2.imshow('frame',frame2)
     out.write(frame2)
 
     # break
