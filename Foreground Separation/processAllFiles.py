@@ -43,14 +43,13 @@ for i in filelist:
 
         # frame = cv2.fastNlMeansDenoisingColored(frame,None,10,10,7,21)
         # frame =  cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
-        frame = fgbg2.apply(frame)
-        # frame = cv2.GaussianBlur(frame,(5,5),0)
+        frame = fgbg3.apply(frame)
+    # frame = cv2.GaussianBlur(frame,(5,5),0)
+ 
+        frame = cv2.erode(frame,kernel2,iterations = 1)
+        frame = cv2.blur(frame,(10,10))
 
-        # frame = cv2.erode(frame,kernel2,iterations = 1)
-        frame = cv2.blur(frame, (30, 30))
-
-        frame2 = cv2.dilate(frame, kernel, iterations=1)
-
+        frame2 = cv2.dilate(frame,kernel,iterations = 1)
         ret, mask = cv2.threshold(frame2, 10, 255, cv2.THRESH_BINARY)
 
         frame2 = cv2.bitwise_and(frameorig, frameorig, mask=mask)
